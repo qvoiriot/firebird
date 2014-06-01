@@ -1,3 +1,6 @@
+//debugmode false in prod
+var debugmode = true;
+
 var states = Object.freeze({
    GetReadyScreen: 0,
    GameScreen: 1,
@@ -31,8 +34,6 @@ var loopGameloop;
 var loopPipeloop;
 
 $(document).ready(function() {
-  if(window.location.search == "?easy")
-    pipeheight = 200;
 
   //start with the get ready screen
   showGetReady();
@@ -76,6 +77,13 @@ function startGame() {
   //update the big score
   setBigScore();
 
+  //debug mode ?
+  if(debugmode)
+  {
+    //show the bounding boxes
+    $(".boundingbox").show();
+  }
+
   //start up our loops
   var updaterate = 1000.0 / 60.0 ; //60 times a second
   loopGameloop = setInterval(gameloop, updaterate);
@@ -115,6 +123,16 @@ function gameloop() {
   var boxright = boxleft + boxwidth;
   var boxbottom = boxtop + boxheight;
 
+  //if we're in debug mode, draw the bounding box on player
+  if(debugmode)
+  {
+    var boundingbox = $("#playerbox");
+    boundingbox.css('left', boxleft);
+    boundingbox.css('top', boxtop);
+    boundingbox.css('height', boxheight);
+    boundingbox.css('width', boxwidth);
+  }
+
   //did we hit the ground?
   if(box.bottom >= $("#land").offset().top)
   {
@@ -139,6 +157,16 @@ function gameloop() {
   var pipeleft = nextpipeupper.offset().left - 2; // for some reason it starts at the inner pipes offset, not the outer pipes.
   var piperight = pipeleft + pipewidth;
   var pipebottom = pipetop + pipeheight;
+
+  //if we're in debug mode, draw the bounding box between pipes
+  if(debugmode)
+  {
+    var boundingbox = $("#pipebox");
+    boundingbox.css('left', pipeleft);
+    boundingbox.css('top', pipetop);
+    boundingbox.css('height', pipeheight);
+    boundingbox.css('width', pipewidth);
+  }
 
   //have we gotten inside the pipe yet?
   if(boxright > pipeleft)

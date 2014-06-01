@@ -168,18 +168,16 @@ html, body {
   animation: animLand 2516ms linear infinite;
 }
 
-#bigscore
-{
-   position: absolute;
-   top: 20px;
-   left: 150px;
-   z-index: 100;
+#bigscore {
+  position: absolute;
+  top: 20px;
+  left: 150px;
+  z-index: 100;
 }
 
-#bigscore img
-{
-   display: inline-block;
-   padding: 1px;
+#bigscore img {
+  display: inline-block;
+  padding: 1px;
 }
 
 #getready {
@@ -191,6 +189,16 @@ html, body {
   height: 170px;
   background-image: url('../images/getready.png');
   background-repeat: no-repeat;
+}
+
+.boundingbox {
+  position: absolute;
+  display: none;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border: 1px solid white;
 }
 
 #player {

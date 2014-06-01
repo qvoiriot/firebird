@@ -11,6 +11,8 @@ var position = 180;
 var rotation = 0;
 var jump = -4.6;
 
+var score = 0;
+
 var pipeheight = 90;
 var pipewidth = 52;
 var pipes = new Array();
@@ -43,6 +45,7 @@ function showGetReady() {
   velocity = 0;
   position = 180;
   rotation = 0;
+  score = 0;
 
   //update the player in preparation for the next game
   $("#player").css({ y: 0, x: 0});
@@ -69,6 +72,9 @@ function startGame() {
   //fade out the getready
   $("#getready").stop();
   $("#getready").transition({ opacity: 0 }, 500, 'ease');
+
+  //update the big score
+  setBigScore();
 
   //start up our loops
   var updaterate = 1000.0 / 60.0 ; //60 times a second
@@ -157,6 +163,8 @@ function gameloop() {
     //yes, remove it
     pipes.splice(0, 1);
 
+    //and score a point
+    playerScore();
   }
 }
 
@@ -192,6 +200,19 @@ function playerJump() {
   soundJump.play();
 }
 
+function setBigScore(erase)
+{
+   var elemscore = $("#bigscore");
+   elemscore.empty();
+
+   if(erase)
+      return;
+
+   var digits = score.toString().split('');
+   for(var i = 0; i < digits.length; i++)
+      elemscore.append("<img src='assets/font/font_big_" + digits[i] + ".png' alt='" + digits[i] + "'>");
+}
+
 function playerDead() {
   //stop animating everything!
   $(".animated").css('animation-play-state', 'paused');
@@ -216,6 +237,16 @@ function playerDead() {
      });
   });
 
+}
+
+function playerScore()
+{
+   score += 1;
+
+   //play score sound
+   soundScore.stop();
+   soundScore.play();
+   setBigScore();
 }
 
 function updatePipes() {

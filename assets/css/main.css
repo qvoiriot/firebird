@@ -214,10 +214,6 @@ z-index: 1000;
   text-align: right;
 }
 
-#currentscore img {
-  padding-left: 2px;
-}
-
 #replay {
   position: absolute;
   opacity: 0;

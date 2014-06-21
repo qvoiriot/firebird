@@ -205,6 +205,19 @@ html, body {
 z-index: 1000;
 }
 
+#currentscore {
+  position: absolute;
+  top: 105px;
+  left: 104px;
+  width: 104px;
+  height: 14px;
+  text-align: right;
+}
+
+#currentscore img {
+  padding-left: 2px;
+}
+
 #replay {
   position: absolute;
   opacity: 0;

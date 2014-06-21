@@ -244,6 +244,15 @@ function setBigScore(erase) {
     elemscore.append("<img src='assets/font/font_big_" + digits[i] + ".png' alt='" + digits[i] + "'>");
 }
 
+function setSmallScore() {
+  var elemscore = $("#currentscore");
+  elemscore.empty();
+
+  var digits = score.toString().split('');
+  for(var i = 0; i < digits.length; i++)
+    elemscore.append("<img src='assets/font/font_small_" + digits[i] + ".png' alt='" + digits[i] + "'>");
+}
+
 function playerDead() {
   //stop animating everything!
   $(".animated").css('animation-play-state', 'paused');
@@ -279,6 +288,9 @@ function showScore() {
 
   //remove the big score
   setBigScore(true);
+
+  //update the scoreboard
+  setSmallScore();
 
   //sound menu!
   soundMenu.stop();
@@ -319,14 +331,13 @@ $("#replay").click(function() {
   });
 });
 
-function playerScore()
-{
-   score += 1;
+function playerScore() {
+  score += 1;
 
-   //play score sound
-   soundScore.stop();
-   soundScore.play();
-   setBigScore();
+  //play score sound
+  soundScore.stop();
+  soundScore.play();
+  setBigScore();
 }
 
 function updatePipes() {

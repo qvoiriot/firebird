@@ -1,9 +1,9 @@
-//debugmode false in prod
 var debugmode = true;
 
 var states = Object.freeze({
    GetReadyScreen: 0,
    GameScreen: 1,
+   ScoreScreen: 2
 });
 
 var currentstate;
@@ -20,6 +20,8 @@ var pipeheight = 90;
 var pipewidth = 52;
 var pipes = new Array();
 
+var replayclickable = false;
+
 //sounds
 var volume = 30;
 var soundJump = new buzz.sound("assets/sounds/snd_wing.ogg");
@@ -34,7 +36,6 @@ var loopGameloop;
 var loopPipeloop;
 
 $(document).ready(function() {
-
   //start with the get ready screen
   showGetReady();
 });
@@ -48,7 +49,7 @@ function showGetReady() {
   rotation = 0;
   score = 0;
 
-  //update the player in preparation for the next game
+  //update the player for the next game
   $("#player").css({ y: 0, x: 0});
   updatePlayer($("#player"));
 
@@ -84,7 +85,7 @@ function startGame() {
     $(".boundingbox").show();
   }
 
-  //start up our loops
+  //start up loops
   var updaterate = 1000.0 / 60.0 ; //60 times a second
   loopGameloop = setInterval(gameloop, updaterate);
   loopPipeloop = setInterval(updatePipes, 1400);
@@ -123,7 +124,7 @@ function gameloop() {
   var boxright = boxleft + boxwidth;
   var boxbottom = boxtop + boxheight;
 
-  //if we're in debug mode, draw the bounding box on player
+  //if debug mode, draw the bounding box on player
   if(debugmode)
   {
     var boundingbox = $("#playerbox");
@@ -133,14 +134,14 @@ function gameloop() {
     boundingbox.css('width', boxwidth);
   }
 
-  //did we hit the ground?
+  //hit the ground?
   if(box.bottom >= $("#land").offset().top)
   {
     playerDead();
     return;
   }
 
-  //have they tried to escape on the top
+  //don't try to escape on the top
   var brick = $("#brick");
   if(boxtop <= (brick.offset().top + brick.height()))
     position = 0;
@@ -158,7 +159,7 @@ function gameloop() {
   var piperight = pipeleft + pipewidth;
   var pipebottom = pipetop + pipeheight;
 
-  //if we're in debug mode, draw the bounding box between pipes
+  //if debug mode, draw the bounding box between pipes
   if(debugmode)
   {
     var boundingbox = $("#pipebox");
@@ -168,24 +169,23 @@ function gameloop() {
     boundingbox.css('width', pipewidth);
   }
 
-  //have we gotten inside the pipe yet?
+  //gotten inside the pipe yet?
   if(boxright > pipeleft)
   {
-    //we're within the pipe, have we passed between upper and lower pipes?
+    //within the pipe, passed between upper and lower pipes?
     if(boxtop > pipetop && boxbottom < pipebottom)
     {
        // makers gona make
-
     }
     else
     {
-       //no! we touched the pipe
+       //touch the pipe
        playerDead();
        return;
     }
   }
 
-  //have we passed the imminent danger?
+  //passed the imminent danger?
   if(boxleft > piperight)
   {
     //yes, remove it
@@ -197,10 +197,14 @@ function gameloop() {
 }
 
 //Handle space bar
-$(document).keydown(function(e){
+$(document).keydown(function(e) {
   //space bar!
   if(e.keyCode == 32) {
-    screenClick();
+    //in ScoreScreen, hitting space should click the "replay" button. else it's just a regular spacebar hit
+    if(currentstate == states.ScoreScreen)
+      $("#replay").click();
+    else
+      screenClick();
   }
 });
 
@@ -228,17 +232,16 @@ function playerJump() {
   soundJump.play();
 }
 
-function setBigScore(erase)
-{
-   var elemscore = $("#bigscore");
-   elemscore.empty();
+function setBigScore(erase) {
+  var elemscore = $("#bigscore");
+  elemscore.empty();
 
-   if(erase)
-      return;
+  if(erase)
+    return;
 
-   var digits = score.toString().split('');
-   for(var i = 0; i < digits.length; i++)
-      elemscore.append("<img src='assets/font/font_big_" + digits[i] + ".png' alt='" + digits[i] + "'>");
+  var digits = score.toString().split('');
+  for(var i = 0; i < digits.length; i++)
+    elemscore.append("<img src='assets/font/font_big_" + digits[i] + ".png' alt='" + digits[i] + "'>");
 }
 
 function playerDead() {
@@ -252,6 +255,9 @@ function playerDead() {
   var movey = Math.max(0, floor - playerbottom);
   $("#player").transition({ y: movey + 'px', rotate: 90}, 1000, 'easeInOutCubic');
 
+  //it's time to change states to scoreScreen to disable left click/flying
+  currentstate = states.ScoreScreen;
+
   //destroy our gameloops
   clearInterval(loopGameloop);
   clearInterval(loopPipeloop);
@@ -262,10 +268,53 @@ function playerDead() {
   //play the hit sound and then the dead sound
   soundHit.play().bindOnce("ended", function() {
      soundDie.play().bindOnce("ended", function() {
+      showScore();
      });
   });
-
 }
+
+function showScore() {
+  //unhide the menu
+  $("#scoreboard").css("display", "block");
+
+  //sound menu!
+  soundMenu.stop();
+  soundMenu.play();
+
+  //show the scoreboard
+  $("#scoreboard").css({ y: '40px', opacity: 0 }); //move it down so we can slide it up
+  $("#replay").css({ y: '40px', opacity: 0 });
+  $("#scoreboard").transition({ y: '0px', opacity: 1}, 600, 'ease', function() {
+    //When the animation is done, animate in the replay button and SWOOSH!
+    soundMenu.stop();
+    soundMenu.play();
+    $("#replay").transition({ y: '0px', opacity: 1}, 600, 'ease');
+
+  });
+
+  //make the replay button clickable
+  replayclickable = true;
+}
+
+$("#replay").click(function() {
+  //make sure we can only click once
+  if(!replayclickable)
+    return;
+  else
+    replayclickable = false;
+  //SWOOSH!
+  soundMenu.stop();
+  soundMenu.play();
+
+  //fade out the scoreboard
+  $("#scoreboard").transition({ y: '-40px', opacity: 0}, 1000, 'ease', function() {
+    //when that's done, display us back to nothing
+    $("#scoreboard").css("display", "none");
+
+    //start the game over!
+    showGetReady();
+  });
+});
 
 function playerScore()
 {
@@ -281,7 +330,7 @@ function updatePipes() {
   //Do any pipes need removal?
   $(".pipe").filter(function() { return $(this).position().left <= -100; }).remove()
 
-  //add a new pipe (top height + bottom height  + pipeheight == 420) and put it in our tracker
+  //add a new pipe (top height + bottom height  + pipeheight == 420)
   var padding = 80;
   var constraint = 420 - pipeheight - (padding * 2); //double padding (for top and bottom)
   var topheight = Math.floor((Math.random()*constraint) + padding); //add lower padding

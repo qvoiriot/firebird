@@ -191,6 +191,30 @@ html, body {
   background-repeat: no-repeat;
 }
 
+#scoreboard {
+  position: absolute;
+  display: none;
+  opacity: 0;
+  top: 64px;
+  left: 43px;
+  width: 236px;
+  height: 280px;
+  background-image: url('../images/scoreboard.png');
+  background-repeat: no-repeat;
+
+z-index: 1000;
+}
+
+#replay {
+  position: absolute;
+  opacity: 0;
+  top: 205px;
+  left: 61px;
+  height: 115px;
+  width: 70px;
+  cursor: pointer;
+}
+
 .boundingbox {
   position: absolute;
   display: none;

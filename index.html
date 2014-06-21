@@ -16,25 +16,24 @@
     <meta property="og:url" content="https://github.com/qvoiriot/firebird" />
     <meta property="og:site_name" content="Fire Bird" />
 
-    <!-- Style sheets -->
     <link href="assets/css/reset.css" rel="stylesheet">
     <link href="assets/css/main.css" rel="stylesheet">
   </head>
 
-  <!-- Shape of the game -->
   <body>
-    <!-- Elements of the environnement -->
     <div id="gamecontainer">
       <div id="gamescreen">
         <div id="sky" class="animated">
           <div id="flyarea">
             <div id="brick" class="animated"></div>
 
-            <!-- This is the flying and pipe area container -->
             <div id="player" class="bird animated"></div>
             <div id="getready"></div>
-
             <div id="bigscore"></div>
+
+            <div id="scoreboard">
+              <div id="replay"><img src="assets/images/replay.png" alt="replay"></div>
+            </div>
 
           </div>
         </div>
@@ -46,11 +45,9 @@
       <a href="https://github.com/qvoiriot/firebird" target="_blank">Welcome on Fire bird</a>
     </div>
 
-    <!-- Bounding box on player and between pipe in debug mode -->
     <div class="boundingbox" id="playerbox"></div>
     <div class="boundingbox" id="pipebox"></div>
 
-    <!-- Called Js files -->
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/js/jquery.transit.min.js"></script>
     <script src="assets/js/buzz.min.js"></script>

@@ -1,4 +1,4 @@
-var debugmode = true;
+var debugmode = false;
 
 var states = Object.freeze({
    GetReadyScreen: 0,
@@ -16,7 +16,7 @@ var jump = -4.6;
 
 var score = 0;
 
-var pipeheight = 90;
+var pipeheight = 120;
 var pipewidth = 52;
 var pipes = new Array();
 
@@ -276,6 +276,9 @@ function playerDead() {
 function showScore() {
   //unhide the menu
   $("#scoreboard").css("display", "block");
+
+  //remove the big score
+  setBigScore(true);
 
   //sound menu!
   soundMenu.stop();

@@ -100,7 +100,7 @@ module.exports = (grunt) ->
 
       finalWindowsApp:
         options:
-          archive: "<%= config.dist %>/firebird-window-v0.1.0.zip"
+          archive: "<%= config.dist %>/firebird-window-v0.0.1.zip"
 
         files: [
           expand: true
@@ -109,7 +109,7 @@ module.exports = (grunt) ->
         ]
       finalMacApp:
         options:
-          archive: "<%= config.dist %>/firebird-macos-v0.1.0.zip"
+          archive: "<%= config.dist %>/firebird-macos-v0.0.1.zip"
 
         files: [
           expand: true

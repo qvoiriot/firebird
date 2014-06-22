@@ -1,0 +1,27 @@
+{
+  "name": "Fire_Bird",
+  "description": "The famous flappy bird in a city on fire !!",
+  "keywords": [],
+  "author": {
+    "name": "Quentin Voiriot",
+    "email": "qvoiriot@gmail.com",
+    "url": "https://github.com/qvoiriot"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "matchdep": "~0.1.2",
+    "grunt": "~0.4.1",
+    "grunt-contrib-copy": "~0.4.1",
+    "grunt-contrib-concat": "~0.1.3",
+    "grunt-contrib-jshint": "~0.4.3",
+    "grunt-contrib-clean": "~0.4.1",
+    "grunt-contrib-rename": "0.0.3",
+    "grunt-contrib-compress": "~0.5.3",
+    "grunt-contrib-watch": "~0.6.1",
+    "grunt-sed": "~0.1.1",
+    "grunt-contrib-coffee": "~0.8.2"
+  },
+  "engines": {
+    "node": ">=0.8.0"
+  }
+}

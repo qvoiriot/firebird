@@ -1,0 +1,11 @@
+{
+  "name": "Fire_Bird",
+  "main": "index.html",
+  "single-instance": true,
+  "window": {
+    "title": "Fire Bird",
+    "toolbar": false,
+    "width": 320,
+    "height": 480
+  }
+}

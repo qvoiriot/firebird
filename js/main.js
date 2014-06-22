@@ -25,11 +25,11 @@ var replayclickable = false;
 
 //sounds
 var volume = 30;
-var soundJump = new buzz.sound("assets/sounds/snd_wing.ogg");
-var soundScore = new buzz.sound("assets/sounds/snd_point.ogg");
-var soundHit = new buzz.sound("assets/sounds/snd_hitflames.ogg");
-var soundDie = new buzz.sound("assets/sounds/snd_die.ogg");
-var soundMenu = new buzz.sound("assets/sounds/snd_menu.ogg");
+var soundJump = new buzz.sound("sounds/snd_wing.ogg");
+var soundScore = new buzz.sound("sounds/snd_point.ogg");
+var soundHit = new buzz.sound("sounds/snd_hitflames.ogg");
+var soundDie = new buzz.sound("sounds/snd_die.ogg");
+var soundMenu = new buzz.sound("sounds/snd_menu.ogg");
 buzz.all().setVolume(volume);
 
 //loops
@@ -266,7 +266,7 @@ function setBigScore(erase) {
 
   var digits = score.toString().split('');
   for(var i = 0; i < digits.length; i++)
-    elemscore.append("<img src='assets/font/font_big_" + digits[i] + ".png' alt='" + digits[i] + "'>");
+    elemscore.append("<img src='font/font_big_" + digits[i] + ".png' alt='" + digits[i] + "'>");
 }
 
 function setSmallScore() {
@@ -275,7 +275,7 @@ function setSmallScore() {
 
   var digits = score.toString().split('');
   for(var i = 0; i < digits.length; i++)
-    elemscore.append("<img src='assets/font/font_small_" + digits[i] + ".png' alt='" + digits[i] + "'>");
+    elemscore.append("<img src='font/font_small_" + digits[i] + ".png' alt='" + digits[i] + "'>");
 }
 
 function setHighScore() {
@@ -284,7 +284,7 @@ function setHighScore() {
 
   var digits = highscore.toString().split('');
   for(var i = 0; i < digits.length; i++)
-    elemscore.append("<img src='assets/font/font_small_" + digits[i] + ".png' alt='" + digits[i] + "'>");
+    elemscore.append("<img src='font/font_small_" + digits[i] + ".png' alt='" + digits[i] + "'>");
 }
 
 function playerDead() {

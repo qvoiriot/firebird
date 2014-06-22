@@ -15,6 +15,7 @@ var rotation = 0;
 var jump = -4.6;
 
 var score = 0;
+var highscore = 0;
 
 var pipeheight = 120;
 var pipewidth = 52;
@@ -36,9 +37,33 @@ var loopGameloop;
 var loopPipeloop;
 
 $(document).ready(function() {
+
+  //get the highscore
+   var savedscore = getCookie("highscore");
+   if(savedscore != "")
+      highscore = parseInt(savedscore);
+
   //start with the get ready screen
   showGetReady();
 });
+
+function getCookie(cname) {
+  var name = cname + "=";
+  var ca = document.cookie.split(';');
+  for(var i=0; i<ca.length; i++)
+  {
+    var c = ca[i].trim();
+    if (c.indexOf(name)==0) return c.substring(name.length,c.length);
+  }
+  return "";
+}
+
+function setCookie(cname,cvalue,exdays) {
+  var d = new Date();
+  d.setTime(d.getTime()+(exdays*24*60*60*1000));
+  var expires = "expires="+d.toGMTString();
+  document.cookie = cname + "=" + cvalue + "; " + expires;
+}
 
 function showGetReady() {
   currentstate = states.GetReadyScreen;
@@ -253,6 +278,15 @@ function setSmallScore() {
     elemscore.append("<img src='assets/font/font_small_" + digits[i] + ".png' alt='" + digits[i] + "'>");
 }
 
+function setHighScore() {
+  var elemscore = $("#highscore");
+  elemscore.empty();
+
+  var digits = highscore.toString().split('');
+  for(var i = 0; i < digits.length; i++)
+    elemscore.append("<img src='assets/font/font_small_" + digits[i] + ".png' alt='" + digits[i] + "'>");
+}
+
 function playerDead() {
   //stop animating everything!
   $(".animated").css('animation-play-state', 'paused');
@@ -289,8 +323,18 @@ function showScore() {
   //remove the big score
   setBigScore(true);
 
+  //beaten the highscore?
+  if(score > highscore)
+  {
+    //GG !
+    highscore = score;
+    //save
+    setCookie("highscore", highscore, 999);
+  }
+
   //update the scoreboard
   setSmallScore();
+  setHighScore();
 
   //sound menu!
   soundMenu.stop();

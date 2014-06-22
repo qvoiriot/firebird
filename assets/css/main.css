@@ -214,6 +214,16 @@ z-index: 1000;
   text-align: right;
 }
 
+#highscore {
+  position: absolute;
+  top: 147px;
+  left: 104px;
+  width: 104px;
+  height: 14px;
+  text-align: right;
+}
+
+
 #replay {
   position: absolute;
   opacity: 0;

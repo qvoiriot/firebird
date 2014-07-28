@@ -287,6 +287,29 @@ function setHighScore() {
     elemscore.append("<img src='font/font_small_" + digits[i] + ".png' alt='" + digits[i] + "'>");
 }
 
+function setMedal() {
+  var elemmedal = $("#medal");
+  elemmedal.empty();
+
+  if(score < 10)
+    //signal that no medal has been won
+    return false;
+
+  if(score >= 10)
+    medal = "bronze";
+  if(score >= 20)
+    medal = "silver";
+  if(score >= 30)
+    medal = "gold";
+  if(score >= 40)
+    medal = "platinum";
+
+  elemmedal.append('<img src="images/medal_' + medal +'.png" alt="' + medal +'">');
+
+  //signal that a medal has been won
+  return true;
+}
+
 function playerDead() {
   //stop animating everything!
   $(".animated").css('animation-play-state', 'paused');
@@ -335,6 +358,7 @@ function showScore() {
   //update the scoreboard
   setSmallScore();
   setHighScore();
+  var wonmedal = setMedal();
 
   //sound menu!
   soundMenu.stop();
@@ -348,6 +372,13 @@ function showScore() {
     soundMenu.stop();
     soundMenu.play();
     $("#replay").transition({ y: '0px', opacity: 1}, 600, 'ease');
+
+    //also animate in the MEDAL!
+    if(wonmedal)
+    {
+      $("#medal").css({ scale: 2, opacity: 0 });
+      $("#medal").transition({ opacity: 1, scale: 1 }, 1200, 'ease');
+    }
 
   });
 

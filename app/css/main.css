@@ -223,6 +223,14 @@ z-index: 1000;
   text-align: right;
 }
 
+#medal {
+  position: absolute;
+  opacity: 0;
+  top: 114px;
+  left: 32px;
+  width: 44px;
+  height: 44px;
+}
 
 #replay {
   position: absolute;
